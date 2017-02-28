@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>单例模式</title>
+</head>
+<body>
+	<p>单例模式定义：确保只有一个实例，并提供一个访问它的全局访问点。</p>
+	<p>JavaScript中，在合适的时候才创建对象，并且只创建唯一的一个。</p>
+	<p>用到知识点：闭包，高阶函数。</p>
+	<p>将管理单例的职责和创建对象分布在两个不同的方法中，可以重复使用。</p>
+	<button id="addBtn">Login</button>
+	<button id="addBtn2">Login2</button>
+	<script type="text/javascript">
+		var getSingle = function (fn) {
+			var result;
+			return function() {
+				return result || (result = fn.apply(this, arguments));
+			}
+		};
+
+
+		var createLoginLayer = function() {
+			var div = document.createElement('div');
+			div.innerHTML = 'I am login window';
+			div.style.display = 'none';
+			document.body.appendChild(div);
+			return div;
+		};
+		var createSingleLoginLayer = getSingle(createLoginLayer);
+		document.getElementById('addBtn').onclick = function() {
+			var loginLayer = createSingleLoginLayer();
+			loginLayer.style.display = 'block';
+		};
+
+
+		var createLoginLayer2 = function() {
+			var div = document.createElement('div');
+			div.innerHTML = 'I am login window 2';
+			div.style.display = 'none';
+			document.body.appendChild(div);
+			return div;
+		};
+		var createSingleLoginLayer2 = getSingle(createLoginLayer2);
+		document.getElementById('addBtn2').onclick = function() {
+			var loginLayer = createSingleLoginLayer2();
+			loginLayer.style.display = 'block';
+		};
+
+	</script>
+</body>
+</html>
